@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -29,6 +32,7 @@ public class OAuth37SignalsApp {
 	private OAuth37SignalsDialog mDialog;
 	private OAuthAuthenticationListener mListener;
 	private ProgressDialog mProgress;
+	private String mAuthUrl;
 	private String mTokenUrl;
 	private String mRefreshTokenUrl;
 	private String mAccessToken;
@@ -47,12 +51,12 @@ public class OAuth37SignalsApp {
 	private static final String TAG = "37SignalsApi";
 	
 	public OAuth37SignalsApp(Context context, String clientId, String clientSecret) {
-		mSession		= new OAuth37SignalsSession(context);		
-		mAccessToken	= mSession.getAccessToken();
-		mExpireToken	= mSession.getExpireToken();
-		mTokenUrl		= TOKEN_URL + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + CALLBACK_URL;
-		mRefreshTokenUrl= REFRESH_TOKEN_URL + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + CALLBACK_URL + "&refresh_token=" + mExpireToken;
-		String url		= AUTH_URL + "&client_id=" + clientId + "&redirect_uri=" + CALLBACK_URL;
+		mSession = new OAuth37SignalsSession(context);		
+		mAccessToken = mSession.getAccessToken();
+		mExpireToken = mSession.getExpireToken();
+		mTokenUrl = TOKEN_URL + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + CALLBACK_URL;
+		mRefreshTokenUrl = REFRESH_TOKEN_URL + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + CALLBACK_URL + "&refresh_token=" + mExpireToken;
+		mAuthUrl = AUTH_URL + "&client_id=" + clientId + "&redirect_uri=" + CALLBACK_URL;
 		
 		OAuthDialogListener listener = new OAuthDialogListener() {
 			@Override
@@ -66,8 +70,8 @@ public class OAuth37SignalsApp {
 			}
 		};
 		
-		mDialog			= new OAuth37SignalsDialog(context, url, listener);
-		mProgress		= new ProgressDialog(context);		
+		mDialog = new OAuth37SignalsDialog(context, mAuthUrl, listener);
+		mProgress = new ProgressDialog(context);		
 		mProgress.setCancelable(false);
 	}
 	
@@ -214,8 +218,7 @@ public class OAuth37SignalsApp {
 			urlConnection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			urlConnection.setDoInput(true);
 			urlConnection.setDoOutput(true);		
-			urlConnection.connect();
-			
+			urlConnection.connect();			
 			String response = streamToString(urlConnection.getInputStream());
 			Log.d(TAG, "Refresh token response " + response);
 			JSONObject jsonObj = (JSONObject) new JSONTokener(response).nextValue();
@@ -227,6 +230,40 @@ public class OAuth37SignalsApp {
 			throw ex;
 		}
 	}
+	
+	public List<Account> getAccountList()  throws Exception {
+		List<Account> accountList = null;
+		try {
+			URL url = new URL(API_URL + "/authorization.json");
+			
+			Log.d(TAG, "Account List URL " + url.toString());
+			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();					
+			urlConnection.setRequestMethod("GET");
+			urlConnection.addRequestProperty("Authorization", "Basic " + String.format("Token token=\"%s\"", mAccessToken));
+			urlConnection.setDoInput(true);
+			urlConnection.setDoOutput(true);					
+			urlConnection.connect();					
+			String response	= streamToString(urlConnection.getInputStream());	
+			Log.d(TAG, "Account list response " + response);
+			JSONObject jsonObj = (JSONObject) new JSONTokener(response).nextValue();
+			JSONArray accounts = jsonObj.getJSONArray("accounts");
+			if(accounts.length() > 0) {
+				accountList = new ArrayList<Account>();
+				for(int i = 0; i < accounts.length(); i++) {
+					JSONObject accObj = accounts.getJSONObject(i);
+					Account acc = new Account(accObj.getString("href"),
+							accObj.getString("id"),
+							accObj.getString("name"),
+							accObj.getString("product"));
+					accountList.add(acc);
+				}
+			}			
+			
+		} catch (Exception ex) {
+			throw ex;
+		}	
+		return accountList;
+	}	
 	
 	private String streamToString(InputStream is) throws IOException {
 		String str  = "";

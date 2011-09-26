@@ -1,5 +1,7 @@
 package br.com.dina.oauth.signals.example;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import br.com.dina.oauth.signals.Account;
 import br.com.dina.oauth.signals.OAuth37SignalsApp;
 import br.com.dina.oauth.signals.OAuth37SignalsApp.OAuthAuthenticationListener;
 
@@ -85,6 +88,23 @@ public class MainActivity extends Activity {
 				catch (Exception e) {
 					e.printStackTrace();
 					Toast.makeText(MainActivity.this, "Error while refreshing token", Toast.LENGTH_SHORT).show();
+				}
+				
+			}
+		});
+        
+        
+        btnListAccounts.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					List<Account> accounts = mApp.getAccountList();
+					Toast.makeText(MainActivity.this, "There are " + accounts.size() + " account(s)", Toast.LENGTH_SHORT).show();
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+					Toast.makeText(MainActivity.this, "Error while acquiring account list", Toast.LENGTH_SHORT).show();
 				}
 				
 			}
