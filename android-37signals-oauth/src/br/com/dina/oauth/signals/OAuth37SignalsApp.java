@@ -42,7 +42,7 @@ public class OAuth37SignalsApp {
 	/**
 	 * Callback url, as set in 'Manage OAuth Costumers' page (https://developer.37signals.com/)
 	 */
-	public static final String CALLBACK_URL = "backpack://connect";
+	public static String CALLBACK_URL = "";
 	private static final String AUTH_URL = "https://launchpad.37signals.com/authorization/new?type=web_server";
 	private static final String TOKEN_URL = "https://launchpad.37signals.com/authorization/token?type=web_server";	
 	private static final String REFRESH_TOKEN_URL = "https://launchpad.37signals.com/authorization/token?type=refresh";	
@@ -50,10 +50,11 @@ public class OAuth37SignalsApp {
 	
 	private static final String TAG = "37SignalsApi";
 	
-	public OAuth37SignalsApp(Context context, String clientId, String clientSecret) {
+	public OAuth37SignalsApp(Context context, String clientId, String clientSecret, String callbackUrl) {
 		mSession = new OAuth37SignalsSession(context);		
 		mAccessToken = mSession.getAccessToken();
 		mExpireToken = mSession.getExpireToken();
+		CALLBACK_URL = callbackUrl;
 		mTokenUrl = TOKEN_URL + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + CALLBACK_URL;
 		mRefreshTokenUrl = REFRESH_TOKEN_URL + "&client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=" + CALLBACK_URL + "&refresh_token=" + mExpireToken;
 		mAuthUrl = AUTH_URL + "&client_id=" + clientId + "&redirect_uri=" + CALLBACK_URL;

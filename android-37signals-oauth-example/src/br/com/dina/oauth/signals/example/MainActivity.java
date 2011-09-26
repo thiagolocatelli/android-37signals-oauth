@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,15 +26,14 @@ public class MainActivity extends Activity {
 	private TextView tvSummary;
 	private TextView tvExpires;
 	
-	public static final String CLIENT_ID = "";
-	public static final String CLIENT_SECRET = "";
+
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        mApp = new OAuth37SignalsApp(this, CLIENT_ID, CLIENT_SECRET);
+        mApp = new OAuth37SignalsApp(this, ApplicationData.CLIENT_ID, ApplicationData.CLIENT_SECRET, ApplicationData.CALLBACK_URL);
         mApp.setListener(listener);
         
         tvSummary = (TextView) findViewById(R.id.tvSummary);
@@ -98,15 +98,8 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				try {
-					List<Account> accounts = mApp.getAccountList();
-					Toast.makeText(MainActivity.this, "There are " + accounts.size() + " account(s)", Toast.LENGTH_SHORT).show();
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-					Toast.makeText(MainActivity.this, "Error while acquiring account list", Toast.LENGTH_SHORT).show();
-				}
-				
+				Intent i = new Intent(MainActivity.this, AccountsActivity.class);
+				startActivity(i);
 			}
 		});
         
