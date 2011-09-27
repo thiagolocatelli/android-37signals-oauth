@@ -298,6 +298,13 @@ public class OAuth37SignalsApp {
 		}
 	}
 	
+	public boolean isAccessTokenExpired() {
+		if (mAccessToken != null) {
+			return mSession.isAccessTokenExpired();
+		}
+		return false;
+	}
+	
 	public interface OAuthAuthenticationListener {
 		public abstract void onSuccess();
 		public abstract void onFail(String error);

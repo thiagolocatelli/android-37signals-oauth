@@ -23,23 +23,40 @@
 		android:layout_marginTop="5dp"
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
-		android:visibility="gone"
+		android:visibility="gone"		 
+		android:text="Access token expire date"
 		android:layout_marginLeft="15dip"
-		android:layout_marginBottom="20dip"/>		
+		android:layout_marginBottom="20dip"/>
+		
+	<TextView
+		android:id="@+id/tvExpire2"
+		android:layout_marginTop="5dp"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:visibility="gone"		 
+		android:text="expired?"
+		android:layout_marginLeft="15dip"
+		android:layout_marginBottom="20dip"/>					
 
-	<Button android:text="Refresh Token" 
-		android:layout_height="wrap_content"
+	<LinearLayout
 		android:layout_width="fill_parent" 
-		android:id="@+id/btnRefresh"
-		android:visibility="gone"
-		android:layout_margin="40dip"/>
-		
-	<Button android:text="List Accounts" 
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent" 
-		android:id="@+id/btnListAccounts"
-		android:visibility="gone"
-		android:layout_margin="40dip"/>
-		
+		android:layout_height="wrap_content" 
+		android:orientation="horizontal">
+
+		<Button android:text="Refresh Token" 
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" 
+			android:id="@+id/btnRefresh"
+			android:visibility="gone"
+			android:layout_weight="1.0"/>
+			
+		<Button android:text="List Accounts" 
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent" 
+			android:id="@+id/btnListAccounts"
+			android:visibility="gone"
+			android:layout_weight="1.0"/>	
+	
+	</LinearLayout>		
 					
 </LinearLayout>

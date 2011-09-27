@@ -1,5 +1,10 @@
 package br.com.dina.oauth.signals;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.Context;
@@ -13,8 +18,11 @@ import android.content.Context;
  *
  */
 public class OAuth37SignalsSession {
+	
 	private SharedPreferences sharedPref;
 	private Editor editor;
+	
+	private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 	
 	private static final String SHARED = "37Signals_Preferences";
 	private static final String API_USERNAME = "username";
@@ -95,5 +103,20 @@ public class OAuth37SignalsSession {
 	 */
 	public String getExpiresAt() {
 		return sharedPref.getString(API_EXPIRES_AT, null);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isAccessTokenExpired() {
+		try {			
+			Date expDate = formatter.parse(this.getExpiresAt());
+			return expDate.before(new Date());
+		}
+		catch(ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

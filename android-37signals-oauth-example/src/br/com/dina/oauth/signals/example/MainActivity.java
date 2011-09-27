@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
 	private Button btnListAccounts;
 	private TextView tvSummary;
 	private TextView tvExpires;
+	private TextView tvExpires2;
 	
 
 	
@@ -38,6 +39,7 @@ public class MainActivity extends Activity {
         
         tvSummary = (TextView) findViewById(R.id.tvSummary);
         tvExpires = (TextView) findViewById(R.id.tvExpire);
+        tvExpires2 = (TextView) findViewById(R.id.tvExpire2);
         btnRefresh = (Button) findViewById(R.id.btnRefresh);
         
         btnListAccounts = (Button) findViewById(R.id.btnListAccounts);
@@ -57,6 +59,7 @@ public class MainActivity extends Activity {
 											btnConnect.setText("Connect");
 											tvSummary.setText("Not connected");
 											tvExpires.setVisibility(View.GONE);
+											tvExpires2.setVisibility(View.GONE);
 											btnRefresh.setVisibility(View.GONE);
 								    		btnListAccounts.setVisibility(View.GONE);
 										}
@@ -107,6 +110,8 @@ public class MainActivity extends Activity {
         	tvSummary.setText("Connected as " + mApp.getUserName());
     		tvExpires.setText("Token expires at a " + mApp.getTokenExpirationDate());
     		tvExpires.setVisibility(View.VISIBLE);
+    		tvExpires2.setText("Token expired: " + (mApp.isAccessTokenExpired() ? "yes" : "no"));
+    		tvExpires2.setVisibility(View.VISIBLE);
     		btnConnect.setText("Disconnect");
     		btnRefresh.setVisibility(View.VISIBLE);
     		btnListAccounts.setVisibility(View.VISIBLE);
@@ -122,6 +127,8 @@ public class MainActivity extends Activity {
     		tvSummary.setText("Connected as " + mApp.getUserName());
     		tvExpires.setText("Token expires at a " + mApp.getTokenExpirationDate());
     		tvExpires.setVisibility(View.VISIBLE);
+    		tvExpires.setVisibility(View.VISIBLE);
+    		tvExpires2.setText("Token expired: " + (mApp.isAccessTokenExpired() ? "yes" : "no"));
     		btnConnect.setText("Disconnect");
     		btnRefresh.setVisibility(View.VISIBLE);
     		btnListAccounts.setVisibility(View.VISIBLE);
