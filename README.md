@@ -1,6 +1,10 @@
 Android OAuth 2 Library for 37Signals Applications
 ---------------
 
+![37Signals](http://thiago.grem.io/img/github/oauth.png "UITableView")
+![37Signals](http://thiago.grem.io/img/github/oauth2.png "UITableView")
+![37Signals](http://thiago.grem.io/img/github/oauth3.png "UITableView")
+
 ## Usage
 
 You can create an utility class where you can define your application credentials, like the one below:
