@@ -1,7 +1,5 @@
 package br.com.dina.oauth.signals.example;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import br.com.dina.oauth.signals.Account;
 import br.com.dina.oauth.signals.OAuth37SignalsApp;
 import br.com.dina.oauth.signals.OAuth37SignalsApp.OAuthAuthenticationListener;
 

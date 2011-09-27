@@ -64,14 +64,9 @@ public class OAuth37SignalsDialog extends Dialog {
         setUpWebView();
         
         Display display 	= getWindow().getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();
-        int height = display.getHeight();
         final float scale 	= getContext().getResources().getDisplayMetrics().density;
-        float[] dimensions 	= (display.getWidth() < display.getHeight()) ? DIMENSIONS_PORTRAIT : DIMENSIONS_LANDSCAPE;
-        
-        addContentView(mContent, new FrameLayout.LayoutParams((int) (dimensions[0] * scale + 0.5f), (int) (dimensions[1] * scale + 0.5f)));        
-        //addContentView(mContent, new FrameLayout.LayoutParams((int) ((width-10) * scale + 0.5f), (int) ((height-10) * scale + 0.5f)));
-        
+        float[] dimensions 	= (display.getWidth() < display.getHeight()) ? DIMENSIONS_PORTRAIT : DIMENSIONS_LANDSCAPE;        
+        addContentView(mContent, new FrameLayout.LayoutParams((int) (dimensions[0] * scale + 0.5f), (int) (dimensions[1] * scale + 0.5f)));         
         CookieSyncManager.createInstance(getContext());    	
     	CookieManager cookieManager = CookieManager.getInstance();    	
     	cookieManager.removeAllCookie();

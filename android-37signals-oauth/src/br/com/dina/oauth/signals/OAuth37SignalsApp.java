@@ -155,8 +155,6 @@ public class OAuth37SignalsApp {
 					mExpiresAt = jsonObj.getString("expires_at");
 					
 					JSONObject identity = jsonObj.getJSONObject("identity");
-					String id = identity.getString("id");
-					String email = identity.getString("email_address");
 					String lastName = identity.getString("last_name");
 					String firstName = identity.getString("first_name");	        
 		        	Log.i(TAG, "Got user name: " + firstName + " " + lastName);		        	
